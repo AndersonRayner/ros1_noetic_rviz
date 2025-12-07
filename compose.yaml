@@ -1,0 +1,23 @@
+
+services:
+  rviz:
+    build: .
+    container_name: ros1_noetic
+    network_mode: host           # Allows ROS networking to work seamlessly
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      # - XDG_RUNTIME_DIR=/tmp/runtime-root
+
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.Xauthority:/root/.Xauthority:rw  # Optional but helpful
+      - ./msgs:/root/ros1_ws/src/:rw  # Custom message definitions
+      - ./data:/root/ros1_ws/data:rw  # Data
+    devices:
+      - /dev/dri:/dev/dri
+    privileged: true
+    stdin_open: true
+    tty: true
+    command: "/bin/bash"
+    # command: bash -c "source /opt/ros/noetic/setup.bash && rviz"

@@ -1,0 +1,3 @@
+# Don't track files added to /data or /msgs
+/data
+/msgs
