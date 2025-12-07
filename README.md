@@ -10,7 +10,7 @@ Once docker is installer, start the rviz via
 ```
 
 > [!WARNING]
-> **Warning:** Closing `rviz` will kill the container.
+> Closing `rviz` will kill the container.
 This makes it easier for you to get started, but if you want other behaviours, I can sit down and work through those with you.
 
 ### Mounting Volumes
