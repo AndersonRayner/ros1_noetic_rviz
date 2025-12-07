@@ -15,7 +15,13 @@ catkin init
 catkin build
 source devel/setup.bash
 
-# Start a roscore (and wait for it to boot)
+# Start a roscore
+roscore
+exit 0
+
+# If you just want rviz to start up, uncomment the 
+# above section (`roscore` and `exit 0`), and let it run through 
+# to this part
 roscore &
 sleep 2
 

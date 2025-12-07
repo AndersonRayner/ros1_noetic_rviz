@@ -1,17 +1,15 @@
 
-# ROS1 Noetic RVIZ Docker Container
+# ROS1 Noetic X11 Docker Container
 
-Dockerfile for starting `rviz` so that ROS1 topics can be visualised on non-ROS1 supported systems.
+Dockerfile for starting a ROS1 roscore with X11 forwarding so standard ROS1 tools (such as `rviz`) can be visualised on non-ROS1 supported systems.
 
 ## Usage
-Once docker is installer, start the rviz via 
+Once docker is installer, start the container via 
 ```
 ./run.sh
 ```
 
-> [!WARNING]
-> Closing `rviz` will kill the container.
-This makes it easier for you to get started, but if you want other behaviours, I can sit down and work through those with you.
+This starts a basic `roscore`, then you can attach to the container (commands below) to run `rviz`, or whatever else you'd like.
 
 ### Mounting Volumes
 - Any data (`.bag` files) placed in `./data` will be mounted into the container so they're easy to use 
@@ -25,9 +23,11 @@ To attach to the container and get a bash terminal (for example, to play a bag),
 docker exec -it ros1_noetic bash
 ```
 
+From here, you'll be able to run all the standard `ros1` commands such as `rviz`.
+
 ### Bring down the container
-The container should automatically close itself when `rviz` is closed.
-If not, from this folder, run
+The container should automatically close itself when the `roscore` terminal is closed.
+If not (likely the container was started in daemon mode (`-d`)), from this folder, run
 
 ```bash
 docker compose down
@@ -36,3 +36,4 @@ docker compose down
 ## Debugging
 ### X11 Issues
 - Check `xeyes` works by running `xeyes` from within the container.
+- Check `X11` is being used (not `wayland`) using `echo $XDG_SESSION_TYPE`
