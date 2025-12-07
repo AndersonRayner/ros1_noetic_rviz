@@ -4,7 +4,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies for X11 apps (and other general stuff)
 RUN apt-get update && apt-get install -y \
-        x11-apps
+    mesa-utils \
+    libgl1-mesa-dri \
+    libgl1 \
+    x11-apps
 
 # Install build dependencies
 RUN apt-get update && apt-get install -y \
@@ -28,20 +31,16 @@ RUN apt-get update && apt-get install -y \
 #         ros-noetic-MESSAGE2 \
 #         ros-noetic-MESSAGE3
 
-RUN apt-get update && apt-get install -y \
-    mesa-utils \
-    libgl1-mesa-dri \
-    libgl1
-
-# Set up ROS environment
-RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
-ENV DISABLE_ROS1_EOL_WARNINGS=1
-
 # Create workspace for messages, data, etc.
 RUN mkdir -p /tmp/runtime-root
 RUN mkdir -p /data
 RUN mkdir -p /root/ros1_ws/src
 WORKDIR /root/ros1_ws
+
+# Set up ROS environment
+RUN echo "source /opt/ros/noetic/setup.bash" >> /root/.bashrc
+RUN echo "source /root/ros1_ws/devel/setup.bash" >> /root/.bashrc
+ENV DISABLE_ROS1_EOL_WARNINGS=1
 
 # Entrypoint for automatically compiling workspace
 COPY entrypoint.sh /entrypoint.sh
